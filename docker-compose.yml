@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+    bot:
+        container_name: bot
+        ports: 
+            - "9000:9000"
+        build: .
+
+    godoc:
+        container_name: godoc
+        ports:
+            - "6060:6060"
+        build: 
+            context: .
+            dockerfile: ./godoc/Dockerfile
+
+volumes:
+    db-data:
