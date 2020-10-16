@@ -13,10 +13,10 @@ type BotConfig struct {
 }
 
 var botID string
-var PREFIX = "-gs"
+const CommandPrefix = "-gs"
 
 // DG : Create new session of discord
-var DG *discordgo.Session
+var discordSession *discordgo.Session
 
 // ConnectBot : Connect bot to server
 func ConnectBot() {
@@ -26,7 +26,7 @@ func ConnectBot() {
 		return
 	}
 
-	DG, err = discordgo.New("Bot " + botConfig.Token)
+	discordSession, err = discordgo.New("Bot " + botConfig.Token)
 	if err != nil {
 		log.Println(err)
 		return
@@ -37,17 +37,17 @@ func ConnectBot() {
 func RunBot() {
 	ConnectBot()
 
-	u, err := DG.User("@me")
+	user, err := discordSession.User("@me")
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	botID = u.ID
+	botID = user.ID
 
-	DG.AddHandler(MessageHandler)
+	discordSession.AddHandler(MessageHandler)
 
-	err = DG.Open()
+	err = discordSession.Open()
 	if err != nil {
 		log.Println(err)
 		return
@@ -60,12 +60,12 @@ func RunBot() {
 }
 
 // MessageHandler : Waiting for sending message by user
-func MessageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
-	if m.Author.ID == botID {
+func MessageHandler(Session *discordgo.Session, Messager *discordgo.MessageCreate) {
+	if Messager.Author.ID == botID {
 		return
 	}
-	var args = strings.Split(m.Content, PREFIX)
+	var args = strings.Split(Messager.Content, CommandPrefix)
 
 	fmt.Println(args[0])
-	runCommands(s, m, args)
+	runCommands(Session, Messager, args)
 }
