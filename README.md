@@ -7,7 +7,7 @@ It's a Discord bot which allows you to get statistics of a video game about peop
 
 - Get statistics about a specific player 
 
-```
+```http
 GET /stats/{player_id} 
 
 `-gs stats <game> <username>`
@@ -15,7 +15,7 @@ GET /stats/{player_id}
 
 - Get statistics about all players
 
-```
+```http
 GET /stats 
 
 `-gs stats <game>`
