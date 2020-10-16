@@ -28,5 +28,5 @@ GET /stats
 ## Architecture of project
 https://github.com/HETIC-MT-P2021/GO-STATS/tree/main/docs
 
-##License
+## License  
 [MIT](https://github.com/HETIC-MT-P2021/GO-STATS/blob/main/LICENSE)
