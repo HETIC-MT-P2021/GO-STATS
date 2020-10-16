@@ -2,9 +2,9 @@ package service
 
 import (
 	"fmt"
-	"log"
-
 	"github.com/bwmarrin/discordgo"
+	"log"
+	"strings"
 )
 
 // BotConfig : config to create new bot
@@ -13,6 +13,7 @@ type BotConfig struct {
 }
 
 var botID string
+const PREFIX = '-'
 
 // DG : Create new session of discord
 var DG *discordgo.Session
@@ -64,6 +65,8 @@ func MessageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
+	var args = strings.Split(m.Content, "-")
+	fmt.Println(args)
 	if m.Content == "-gs stats lol" {
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Soon")
 	}
