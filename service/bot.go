@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/bwmarrin/discordgo"
+	"strings"
 )
 
 // BotConfig : config to create new bot
@@ -13,6 +14,7 @@ type BotConfig struct {
 }
 
 var botID string
+var PREFIX = "-gs"
 
 // DG : Create new session of discord
 var DG *discordgo.Session
@@ -63,8 +65,8 @@ func MessageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == botID {
 		return
 	}
+	var args = strings.Split(m.Content, PREFIX)
 
-	if m.Content == "-gs stats lol" {
-		_, _ = s.ChannelMessageSend(m.ChannelID, "Soon")
-	}
+	fmt.Println(args[0])
+	runCommands(s, m, args)
 }
