@@ -1,11 +1,23 @@
 # GO-STATS
 
 ## What is GO-STATS ?
-It's a Discord bot which allow you to get statistics of a video game about people in a discord chanel. In a first time, you will be able to get statistics about player(s) playing League of Legend.
+It's a Discord bot which allows you to get statistics of a video game about people in a discord chanel. In a first time, you will be able to get statistics about player(s) playing League of Legend exclusively.
 
-## Feature
-- Get statistics about a player GET /stats/{player_id} by executing `-gs stats <game> <username>`
-- Get statistics about players GET /stats `-gs stats <game>`
+## Features
+
+- Get statistics about a specific player 
+
+```
+GET /stats/{player_id} 
+`-gs stats <game> <username>`
+```
+
+- Get statistics about all players
+
+```
+GET /stats 
+`-gs stats <game>`
+```
 
 ## Libraries
 - https://gowalker.org/github.com/bwmarrin/discordgo
