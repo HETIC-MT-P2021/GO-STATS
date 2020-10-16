@@ -2,9 +2,8 @@ package service
 
 import (
 	"fmt"
-	"log"
-
 	"github.com/bwmarrin/discordgo"
+	"log"
 	"strings"
 )
 
