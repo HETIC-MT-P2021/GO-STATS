@@ -7,23 +7,16 @@ It's a Discord bot which allows you to get statistics of a video game about peop
 
 - Get statistics about a specific player 
 
-
 `-gs stats <game> <username>`
-```http
-GET /stats/{player_id} 
-```
 
 - Get statistics about all players
 
-
 `-gs stats <game>`
-```http
-GET /stats 
-```
 
 ## Libraries
 - https://gowalker.org/github.com/bwmarrin/discordgo
 - https://godoc.org/github.com/atuleu/go-lol
+- https://github.com/Girbons/rocket-go
 
 ## Architecture of project
 https://github.com/HETIC-MT-P2021/GO-STATS/tree/main/docs
