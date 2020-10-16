@@ -12,7 +12,4 @@ It's a Discord bot which allow you to get statistics of a video game about peopl
 - https://godoc.org/github.com/atuleu/go-lol
 
 ## Architecture of project
-Coming soon
-
-## Architecture of code
-Coming soon
+https://github.com/HETIC-MT-P2021/GO-STATS/tree/main/docs
