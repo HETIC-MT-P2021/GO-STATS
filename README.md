@@ -9,6 +9,7 @@ It's a Discord bot which allows you to get statistics of a video game about peop
 
 ```
 GET /stats/{player_id} 
+
 `-gs stats <game> <username>`
 ```
 
@@ -16,6 +17,7 @@ GET /stats/{player_id}
 
 ```
 GET /stats 
+
 `-gs stats <game>`
 ```
 
@@ -25,3 +27,6 @@ GET /stats
 
 ## Architecture of project
 https://github.com/HETIC-MT-P2021/GO-STATS/tree/main/docs
+
+##License
+[MIT](https://github.com/HETIC-MT-P2021/GO-STATS/blob/main/LICENSE)
