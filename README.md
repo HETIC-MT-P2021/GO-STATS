@@ -9,17 +9,17 @@ It's a Discord bot which allows you to get statistics of a video game about peop
 
 ```http
 GET /stats/{player_id} 
+```
 
 `-gs stats <game> <username>`
-```
 
 - Get statistics about all players
 
 ```http
 GET /stats 
+```
 
 `-gs stats <game>`
-```
 
 ## Libraries
 - https://gowalker.org/github.com/bwmarrin/discordgo
