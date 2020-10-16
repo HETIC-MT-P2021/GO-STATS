@@ -13,13 +13,13 @@ type BotConfig struct {
 }
 
 var botID string
-const PREFIX = '-'
+var PREFIX = "-gs"
 
 // DG : Create new session of discord
 var DG *discordgo.Session
 
-// CnnectBot : Connect bot to server
-func CnnectBot() {
+// ConnectBot : Connect bot to server
+func ConnectBot() {
 	botConfig, err := GetVarsBot()
 	if err != nil {
 		log.Println(err)
@@ -35,7 +35,7 @@ func CnnectBot() {
 
 // RunBot : Create new bot
 func RunBot() {
-	CnnectBot()
+	ConnectBot()
 
 	u, err := DG.User("@me")
 	if err != nil {
@@ -64,10 +64,8 @@ func MessageHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == botID {
 		return
 	}
+	var args = strings.Split(m.Content, PREFIX)
 
-	var args = strings.Split(m.Content, "-")
-	fmt.Println(args)
-	if m.Content == "-gs stats lol" {
-		_, _ = s.ChannelMessageSend(m.ChannelID, "Soon")
-	}
+	fmt.Println(args[0])
+	runCommands(s, m, args)
 }
