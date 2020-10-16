@@ -3,7 +3,7 @@
 ## What is GO-STATS ?
 It's a Discord bot which allows you to get statistics of a video game about people in a discord chanel. In a first time, you will be able to get statistics about player(s) playing League of Legend exclusively.
 
-## Features
+## Features (to come)
 
 - Get statistics about a specific player 
 
