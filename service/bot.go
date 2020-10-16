@@ -17,8 +17,8 @@ var botID string
 // DG : Create new session of discord
 var DG *discordgo.Session
 
-// CnnectBot : Connect bot to server
-func CnnectBot() {
+// ConnectBot : Connect bot to server
+func ConnectBot() {
 	botConfig, err := GetVarsBot()
 	if err != nil {
 		log.Println(err)
@@ -34,7 +34,7 @@ func CnnectBot() {
 
 // RunBot : Create new bot
 func RunBot() {
-	CnnectBot()
+	ConnectBot()
 
 	u, err := DG.User("@me")
 	if err != nil {
