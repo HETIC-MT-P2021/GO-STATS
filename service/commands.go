@@ -14,13 +14,16 @@ const helpMessage = "" +
 // RunBot : Create new bot
 func runCommands(Session *discordgo.Session, Messager *discordgo.MessageCreate, args [] string) {
 
+	// for each command, do something different
 	switch strings.ReplaceAll(args[1], " ", "") {
-	case "help":
+	case "help", "?", "h":
 		Session.ChannelMessageSendEmbed(Messager.ChannelID, embed.NewGenericEmbed("GameStats BOT Helper", helpMessage))
 	case "version":
 		Session.ChannelMessageSend(Messager.ChannelID, "v0.0.1")
+	case "me":
+		Session.ChannelMessageSend(Messager.ChannelID, Messager.Author.Username)
 	case "lol":
-		Session.ChannelMessageSend(Messager.ChannelID, "League of Legends")
+		Session.ChannelMessageSend(Messager.ChannelID, getLolData(Messager.Author.Username))
 	case "clear":
 		Session.ChannelMessageSend(Messager.ChannelID, "Error, please retry...")
 	}
