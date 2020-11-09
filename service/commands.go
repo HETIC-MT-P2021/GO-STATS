@@ -18,9 +18,9 @@ func runCommands(Session *discordgo.Session, Messager *discordgo.MessageCreate, 
 	switch strings.ReplaceAll(args[1], " ", "") {
 	case "help", "?", "h":
 		Session.ChannelMessageSendEmbed(Messager.ChannelID, embed.NewGenericEmbed("GameStats BOT Helper", helpMessage))
-	case "version":
+	case "version", "v":
 		Session.ChannelMessageSend(Messager.ChannelID, "v0.0.1")
-	case "me":
+	case "me", "whoami":
 		Session.ChannelMessageSend(Messager.ChannelID, Messager.Author.Username)
 	case "lol":
 		Session.ChannelMessageSend(Messager.ChannelID, getLolData(Messager.Author.Username))
