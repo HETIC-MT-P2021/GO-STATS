@@ -13,7 +13,7 @@ type BotConfig struct {
 }
 
 var botID string
-const CommandPrefix = "-gs"
+const CommandPrefix = "-gs "
 
 // DG : Create new session of discord
 var discordSession *discordgo.Session
@@ -66,6 +66,5 @@ func MessageHandler(Session *discordgo.Session, Messager *discordgo.MessageCreat
 	}
 	var args = strings.Split(Messager.Content, CommandPrefix)
 
-	fmt.Println(args[0])
 	runCommands(Session, Messager, args)
 }
