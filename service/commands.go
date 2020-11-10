@@ -37,7 +37,7 @@ func runCommands(Session *discordgo.Session, Messager *discordgo.MessageCreate, 
 			returnedMessage.SetColor(0xA62019)
 		} else {
 
-			returnedMessage.SetImage(fmt.Sprintf("http://ddragon.leagueoflegends.com/cdn/10.3.1/img/profileicon/%d.png", profileIconID))
+			returnedMessage.SetThumbnail(fmt.Sprintf("http://ddragon.leagueoflegends.com/cdn/10.22.1/img/profileicon/%d.png", profileIconID))
 			returnedMessage.SetTitle(summonerName)
 			returnedMessage.SetDescription(data)
 			returnedMessage.SetColor(0x4E6F7B)
