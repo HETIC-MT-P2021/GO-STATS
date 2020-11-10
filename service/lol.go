@@ -7,6 +7,7 @@ import (
 
 	"github.com/yuhanfang/riot/apiclient"
 	"github.com/yuhanfang/riot/constants/region"
+	"github.com/yuhanfang/riot/constants/champion"
 	"github.com/yuhanfang/riot/ratelimit"
 	"net/http"
 	"os"
@@ -31,17 +32,28 @@ func GetLolData(username string) (int, string, string, error) {
 	limiter := ratelimit.NewLimiter()
 	client := apiclient.New(key, httpClient, limiter)
 
-	fmt.Println("GetBySummonerName")
-	summoner, err := client.GetBySummonerName(ctx, reg, username)
+	summonerInfos, err := client.GetBySummonerName(ctx, reg, username)
 	if err != nil {
 
 		return 0, "", "", err
 	}
-	prettyPrint(summoner, err)
+	prettyPrint(summonerInfos, err)
 
-	profileIconID := summoner.ProfileIconID
-	data := fmt.Sprintf("- Level %d\n- Champions : %s, %s, %s", summoner.SummonerLevel, )
-	summonerName := summoner.Name
+	summonerChamps, err := client.GetAllChampionMasteries(ctx, reg, summonerInfos.ID)
+	if err != nil {
+
+		return 0, "", "", err
+	}
+
+	var filteredChamps []champion.Champion
+	for _, champ := range summonerChamps[0:3] {
+
+		filteredChamps = append(filteredChamps, champ.ChampionID)
+	}
+
+	profileIconID := summonerInfos.ProfileIconID
+	data := fmt.Sprintf("\n- **Level %d**\n- **Champions : **%s, %s, %s", summonerInfos.SummonerLevel, filteredChamps[0], filteredChamps[1], filteredChamps[2])
+	summonerName := summonerInfos.Name
 
 	return profileIconID, data, summonerName, nil
 }
