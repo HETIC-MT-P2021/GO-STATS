@@ -2,9 +2,10 @@ package service
 
 import (
 	"fmt"
-	"github.com/Clinet/discordgo-embed"
-	"github.com/bwmarrin/discordgo"
 	"strings"
+
+	embed "github.com/Clinet/discordgo-embed"
+	"github.com/bwmarrin/discordgo"
 )
 
 const helpMessage = "" +
@@ -13,7 +14,7 @@ const helpMessage = "" +
 	"- <player> stats <game>: displays stats of a specific player from a specific game \n"
 
 // RunBot : Create new bot
-func runCommands(Session *discordgo.Session, Messager *discordgo.MessageCreate, args [] string) {
+func runCommands(Session *discordgo.Session, Messager *discordgo.MessageCreate, args []string) {
 
 	var params = strings.Split(args[1], " ")
 	fmt.Println(params)
@@ -27,7 +28,7 @@ func runCommands(Session *discordgo.Session, Messager *discordgo.MessageCreate, 
 	case "me":
 		Session.ChannelMessageSend(Messager.ChannelID, Messager.Author.Username)
 	case "lol":
-		profileIconID, data, summonerName, err := GetLolData(params[1])
+		profileIconID, data, summonerName, err := GetLOLProfileData(params[1])
 
 		returnedMessage := embed.NewEmbed()
 		if err != nil {
