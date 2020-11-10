@@ -5,11 +5,12 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"net/http"
+	"os"
+
 	"github.com/yuhanfang/riot/apiclient"
 	"github.com/yuhanfang/riot/constants/region"
 	"github.com/yuhanfang/riot/ratelimit"
-	"net/http"
-	"os"
 )
 
 const (
@@ -40,12 +41,11 @@ func GetLolData(username string) (int, string, string, error) {
 	prettyPrint(summoner, err)
 
 	profileIconID := summoner.ProfileIconID
-	data := fmt.Sprintf("- Level %d\n- Champions : %s, %s, %s", summoner.SummonerLevel, )
+	data := fmt.Sprintf("- Level %d", summoner.SummonerLevel)
 	summonerName := summoner.Name
 
 	return profileIconID, data, summonerName, nil
 }
-
 
 func prettyPrint(res interface{}, err error) {
 	if err != nil {
