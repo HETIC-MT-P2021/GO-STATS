@@ -57,6 +57,8 @@ func GetLOLProfileData(username string) (int, string, string, error) {
 
 	summonerChamps, err := GetAllChampionMasteries(summonerInfos.ID)
 	if err != nil {
+
+		fmt.Println(err)
 		return profileIconID, "", summonerInfos.Name, err
 	}
 
@@ -86,8 +88,14 @@ func GetAllChampionMasteries(summonerID string) ([]champion.Champion, error) {
 	}
 
 	var filteredChamps []champion.Champion
-	for _, champ := range summonerChamps[0:ChampionsLimit] {
-		filteredChamps = append(filteredChamps, champ.ChampionID)
+	if len(summonerChamps)>ChampionsLimit {
+
+		for _, champ := range summonerChamps[0:ChampionsLimit] {
+			filteredChamps = append(filteredChamps, champ.ChampionID)
+		}
+	} else {
+
+		return nil, err
 	}
 
 	return filteredChamps, nil
