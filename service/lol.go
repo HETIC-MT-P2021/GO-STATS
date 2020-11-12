@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"net/http"
 
@@ -44,13 +45,13 @@ func NewConfigLolAPI(riotGamesToken string, reg string) ConfigLolAPI {
 	}
 }
 
-func GetLOLProfileData(username string) (int, string, string, error) {
+func GetLOLProfileData(username string) (int, string, string, int64, error) {
 
 	configAPI = NewConfigLolAPI(os.Getenv("RIOTGAMES"), region.EUW1)
 
 	summonerInfos, err := configAPI.Client.GetBySummonerName(configAPI.Ctx, configAPI.Region, username)
 	if err != nil {
-		return 0, "", "", err
+		return 0, "", "", 0, err
 	}
 
 	profileIconID := summonerInfos.ProfileIconID
@@ -59,16 +60,15 @@ func GetLOLProfileData(username string) (int, string, string, error) {
 	if err != nil {
 
 		fmt.Println(err)
-		return profileIconID, "", summonerInfos.Name, err
+		return profileIconID, "", summonerInfos.Name, summonerInfos.SummonerLevel, err
 	}
 
 	rank, winrate, err := GetAllLeaguePositionsForSummoner(summonerInfos.ID)
 	if err != nil {
-		return profileIconID, "", summonerInfos.Name, err
+		return profileIconID, "", summonerInfos.Name, summonerInfos.SummonerLevel, err
 	}
 
 	profile := ProfileLOL{
-		SummonerLevel: summonerInfos.SummonerLevel,
 		Rank:          rank,
 		Winrate:       winrate,
 		Champions:     summonerChamps,
@@ -78,7 +78,7 @@ func GetLOLProfileData(username string) (int, string, string, error) {
 
 	prettyPrint(summonerInfos, err)
 
-	return profileIconID, template, summonerInfos.Name, nil
+	return profileIconID, template, summonerInfos.Name, summonerInfos.SummonerLevel, nil
 }
 
 func GetAllChampionMasteries(summonerID string) ([]champion.Champion, error) {
@@ -114,7 +114,7 @@ func GetAllLeaguePositionsForSummoner(SummonerID string) (string, string, error)
 	for _, ranked := range rankedByModes {
 		found := findQueueType(QueuesType, ranked.QueueType)
 		if found {
-			rank = fmt.Sprintf("%s %s | %d LP", ranked.Tier, ranked.Rank, ranked.LeaguePoints)
+			rank = fmt.Sprintf("%s %s\n > %d LP", upFirstCaseLetter(string(ranked.Tier)), ranked.Rank, ranked.LeaguePoints)
 			winrate = fmt.Sprintf("%.2f%% W/L", float64(ranked.Wins)/(float64(ranked.Wins)+float64(ranked.Losses))*100)
 		}
 	}
@@ -144,4 +144,8 @@ func prettyPrint(res interface{}, err error) {
 		return
 	}
 	fmt.Println(string(js))
+}
+
+func upFirstCaseLetter(string string) string{
+	return strings.Title(strings.ToLower(string))
 }

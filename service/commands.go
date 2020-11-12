@@ -35,7 +35,7 @@ func runCommands(Session *discordgo.Session, Messager *discordgo.MessageCreate, 
 			Session.ChannelMessageSend(Messager.ChannelID, "Merci de spécifier le nom du joueur pour League of Legends")
 			return
 		}
-		profileIconID, data, summonerName, err := GetLOLProfileData(params[1])
+		profileIconID, summonerDatas, summonerName, summonerLevel, err := GetLOLProfileData(params[1])
 
 		returnedMessage := embed.NewEmbed()
 		if err != nil {
@@ -55,8 +55,8 @@ func runCommands(Session *discordgo.Session, Messager *discordgo.MessageCreate, 
 		} else {
 
 			returnedMessage.SetThumbnail(fmt.Sprintf("http://ddragon.leagueoflegends.com/cdn/10.22.1/img/profileicon/%d.png", profileIconID))
-			returnedMessage.SetTitle(summonerName)
-			returnedMessage.SetDescription(data)
+			returnedMessage.SetTitle(fmt.Sprintf("%s - Level %d", summonerName, summonerLevel))
+			returnedMessage.SetDescription(summonerDatas)
 			returnedMessage.SetColor(0x4E6F7B)
 		}
 		Session.ChannelMessageSendEmbed(Messager.ChannelID, returnedMessage.MessageEmbed)
