@@ -45,6 +45,7 @@ func NewConfigLolAPI(riotGamesToken string, reg string) ConfigLolAPI {
 }
 
 func GetLOLProfileData(username string) (int, string, string, error) {
+
 	configAPI = NewConfigLolAPI(os.Getenv("RIOTGAMES"), region.EUW1)
 
 	summonerInfos, err := configAPI.Client.GetBySummonerName(configAPI.Ctx, configAPI.Region, username)
