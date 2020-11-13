@@ -8,7 +8,6 @@ import (
 
 // ProfileLOL Stores data of a profile player
 type ProfileLOL struct {
-	SummonerLevel int64
 	Rank          string
 	Winrate       string
 	Champions     []champion.Champion
@@ -16,9 +15,8 @@ type ProfileLOL struct {
 
 // ProfileBuilder Display on Discord profile data
 func (profile ProfileLOL) ProfileBuilder() string {
-	template := fmt.Sprintf("\n- **Level %d**\n", profile.SummonerLevel)
-	template += fmt.Sprintf("%s\n%s\n", profile.Rank, profile.Winrate)
-	template += "- **Champions : **"
+	template := fmt.Sprintf("**%s**\n%s\n", profile.Rank, profile.Winrate)
+	template += "\n- **Champions : **"
 
 	championsLength := len(profile.Champions) - 1
 	for index, championItem := range profile.Champions {
