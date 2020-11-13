@@ -16,16 +16,17 @@ import (
 )
 
 const (
-	ChampionsLimit int = 3
+	championsLimit int = 3
 )
 
-var QueuesType []string = []string{"RANKED_SOLO_5x5"}
+var queuesType []string = []string{"RANKED_SOLO_5x5"}
 
-func NewConfigLOLAPI(riotGamesToken string) config.ConfigLeagueOfLegendsAPI {
+// NewConfigLOLAPI Set up League Of Legends API
+func NewConfigLOLAPI(riotGamesToken string) config.LeagueOfLegendsAPI {
 	httpClient := http.DefaultClient
 	limiter := ratelimit.NewLimiter()
 
-	return config.ConfigLeagueOfLegendsAPI{
+	return config.LeagueOfLegendsAPI{
 		RiotGamesToken: riotGamesToken,
 		Ctx:            context.Background(),
 		Limiter:        limiter,
@@ -34,8 +35,9 @@ func NewConfigLOLAPI(riotGamesToken string) config.ConfigLeagueOfLegendsAPI {
 	}
 }
 
-var configAPI config.ConfigLeagueOfLegendsAPI
+var configAPI config.LeagueOfLegendsAPI
 
+// GetLOLProfileData Allow to get some data about league of legends player profile from username
 func GetLOLProfileData(username string) (int, string, string, error) {
 	configAPI = NewConfigLOLAPI(os.Getenv("RIOTGAMES"))
 
@@ -70,6 +72,7 @@ func GetLOLProfileData(username string) (int, string, string, error) {
 	return profileIconID, template, summonerInfos.Name, nil
 }
 
+// GetAllChampionMasteries Allow to get 3 most champion used
 func GetAllChampionMasteries(summonerID string) ([]champion.Champion, error) {
 	summonerChamps, err := configAPI.Client.GetAllChampionMasteries(configAPI.Ctx, configAPI.Region, summonerID)
 	if err != nil {
@@ -77,13 +80,14 @@ func GetAllChampionMasteries(summonerID string) ([]champion.Champion, error) {
 	}
 
 	var filteredChamps []champion.Champion
-	for _, champ := range summonerChamps[0:ChampionsLimit] {
+	for _, champ := range summonerChamps[0:championsLimit] {
 		filteredChamps = append(filteredChamps, champ.ChampionID)
 	}
 
 	return filteredChamps, nil
 }
 
+// GetAllLeaguePositionsForSummoner Allow to get some data in ranked mode
 func GetAllLeaguePositionsForSummoner(SummonerID string) (string, string, error) {
 	rank := ""
 	winrate := ""
@@ -95,7 +99,7 @@ func GetAllLeaguePositionsForSummoner(SummonerID string) (string, string, error)
 	}
 
 	for _, ranked := range rankedByModes {
-		found := findQueueType(QueuesType, ranked.QueueType)
+		found := findRankedSoloDuo(queuesType, ranked.QueueType)
 		if found {
 			rank = fmt.Sprintf("%s %s | %d LP", ranked.Tier, ranked.Rank, ranked.LeaguePoints)
 			winrate = fmt.Sprintf("%.2f%% W/L", float64(ranked.Wins)/(float64(ranked.Wins)+float64(ranked.Losses))*100)
@@ -107,7 +111,8 @@ func GetAllLeaguePositionsForSummoner(SummonerID string) (string, string, error)
 	return rank, winrate, nil
 }
 
-func findQueueType(fromValues []string, lookingFor string) bool {
+// findRankedSoloDuo Allow to get some data in ranked mode
+func findRankedSoloDuo(fromValues []string, lookingFor string) bool {
 	for _, from := range fromValues {
 		if from == lookingFor {
 			return true
@@ -116,6 +121,7 @@ func findQueueType(fromValues []string, lookingFor string) bool {
 	return false
 }
 
+// prettyPrint Made data readable
 func prettyPrint(res interface{}, err error) {
 	if err != nil {
 		fmt.Println("HTTP error:", err)

@@ -14,7 +14,7 @@ const helpMessage = "" +
 	"- stats <game>: displays stats of all players from a specific game \n" +
 	"- <player> stats <game>: displays stats of a specific player from a specific game \n"
 
-// RunBot : Create new bot
+// runCommands Check which command is called
 func runCommands(Session *discordgo.Session, Messager *discordgo.MessageCreate, args []string) {
 
 	var params = strings.Split(args[1], " ")

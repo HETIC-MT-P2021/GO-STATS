@@ -5,9 +5,10 @@
 package mocks
 
 import (
+	reflect "reflect"
+
 	gomock "github.com/golang/mock/gomock"
 	config "github.com/wyllisMonteiro/GO-STATS/service/config"
-	reflect "reflect"
 )
 
 // MockLeagueOfLegends is a mock of LeagueOfLegends interface
@@ -34,10 +35,10 @@ func (m *MockLeagueOfLegends) EXPECT() *MockLeagueOfLegendsMockRecorder {
 }
 
 // MakeConfig mocks base method
-func (m *MockLeagueOfLegends) MakeConfig(arg0 string) config.ConfigLeagueOfLegendsAPI {
+func (m *MockLeagueOfLegends) MakeConfig(arg0 string) config.LeagueOfLegendsAPI {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "MakeConfig", arg0)
-	ret0, _ := ret[0].(config.ConfigLeagueOfLegendsAPI)
+	ret0, _ := ret[0].(config.LeagueOfLegendsAPI)
 	return ret0
 }
 

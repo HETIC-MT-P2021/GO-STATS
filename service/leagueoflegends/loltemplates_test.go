@@ -13,7 +13,7 @@ func addChampion(champ champion.Champion) []champion.Champion {
 	return champions
 }
 
-// TestProfileBuilder : test ProfileBuilder
+// TestProfileBuilder tests ProfileBuilder()
 func TestProfileBuilder(t *testing.T) {
 	var champ1 champion.Champion = 1
 	var champ2 champion.Champion = 2

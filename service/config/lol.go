@@ -8,7 +8,8 @@ import (
 	"github.com/yuhanfang/riot/ratelimit"
 )
 
-type ConfigLeagueOfLegendsAPI struct {
+// LeagueOfLegendsAPI Stores data to use League Of Legends API
+type LeagueOfLegendsAPI struct {
 	RiotGamesToken string
 	Ctx            context.Context
 	Limiter        ratelimit.Limiter
