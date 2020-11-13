@@ -24,10 +24,11 @@ func TestProfileBuilder(t *testing.T) {
 	champions = addChampion(champ3)
 
 	profile := ProfileLOL{
-		SummonerLevel: 20,
-		Rank:          "SILVER I | 0 LP",
-		Winrate:       "54.01% W/L",
-		Champions:     champions,
+		Scoring{
+			Rank:    "SILVER I | 0 LP",
+			Winrate: "54.01% W/L",
+		},
+		champions,
 	}
 
 	template := profile.ProfileBuilder()
@@ -38,8 +39,8 @@ func TestProfileBuilder(t *testing.T) {
 		}
 	})
 
-	goodTemplate := "\n- **Level 20**\n"
-	goodTemplate += "SILVER I | 0 LP\n54.01% W/L\n"
+	goodTemplate := "**SILVER I | 0 LP**\n"
+	goodTemplate += "54.01% W/L\n\n"
 	goodTemplate += "- **Champions : **Annie, Olaf, Galio"
 
 	t.Run("Template has good values ?", func(t *testing.T) {
