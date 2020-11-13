@@ -5,7 +5,9 @@ services:
         container_name: bot
         ports: 
             - "9000:9000"
-        build: .
+        build:
+            context: .
+            dockerfile: ./build/Dockerfile-bot
 
     godoc:
         container_name: godoc
@@ -13,7 +15,7 @@ services:
             - "6060:6060"
         build: 
             context: .
-            dockerfile: ./godoc/Dockerfile
+            dockerfile: ./build/Dockerfile-godoc
 
 volumes:
     db-data:

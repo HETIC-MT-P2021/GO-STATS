@@ -2,23 +2,26 @@ package service
 
 import (
 	"fmt"
-	"github.com/bwmarrin/discordgo"
 	"log"
 	"strings"
+
+	"github.com/bwmarrin/discordgo"
 )
 
-// BotConfig : config to create new bot
+// BotConfig Stores necessary data to create new bot
 type BotConfig struct {
 	Token string
 }
 
 var botID string
-const CommandPrefix = "-gs "
 
-// DG : Create new session of discord
+// commandPrefix is prefix used to call our bot in discord
+const commandPrefix = "-gs "
+
+// discordSession Create new session of discord
 var discordSession *discordgo.Session
 
-// ConnectBot : Connect bot to server
+// ConnectBot Make bot used on a server
 func ConnectBot() {
 	botConfig, err := GetVarsBot()
 	if err != nil {
@@ -33,7 +36,7 @@ func ConnectBot() {
 	}
 }
 
-// RunBot : Create new bot
+// RunBot Make all features usable
 func RunBot() {
 	ConnectBot()
 
@@ -59,12 +62,12 @@ func RunBot() {
 	return
 }
 
-// MessageHandler : Waiting for sending message by user
+// MessageHandler Waiting for sending message by user
 func MessageHandler(Session *discordgo.Session, Messager *discordgo.MessageCreate) {
 	if Messager.Author.ID == botID {
 		return
 	}
-	var args = strings.Split(Messager.Content, CommandPrefix)
+	var args = strings.Split(Messager.Content, commandPrefix)
 
 	runCommands(Session, Messager, args)
 }

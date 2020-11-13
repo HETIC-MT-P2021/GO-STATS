@@ -6,7 +6,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// GoDotEnvVariable : Get environment variable in .env file
+// GoDotEnvVariable Allow to get environment variable in .env file
 func GoDotEnvVariable(key string) (string, error) {
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -16,7 +16,7 @@ func GoDotEnvVariable(key string) (string, error) {
 	return os.Getenv(key), nil
 }
 
-// GetVarsBot : Get environment variable for setting up bot in .env file
+// GetVarsBot Allow to get environment variable for setting up bot in .env file
 func GetVarsBot() (BotConfig, error) {
 	var config BotConfig
 
