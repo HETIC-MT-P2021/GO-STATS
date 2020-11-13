@@ -14,9 +14,10 @@ It's a Discord bot which allows you to get statistics of a video game about peop
 
 `-gs compare <game> <username1> <username2>`
 
-- Get statistics about all players
+- Get specific stats of a player
 
-`-gs <game>`
+For example :
+`-gs <game> <username> <lol_champion_name>`
 
 - Get a list of informations on GO-STATS
 
