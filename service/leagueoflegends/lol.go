@@ -11,7 +11,6 @@ import (
 
 	"github.com/wyllisMonteiro/GO-STATS/service/config"
 	"github.com/yuhanfang/riot/apiclient"
-	"github.com/yuhanfang/riot/constants/champion"
 	"github.com/yuhanfang/riot/constants/region"
 	"github.com/yuhanfang/riot/ratelimit"
 )
@@ -100,17 +99,17 @@ func GetLOLProfileData(username string) (DiscordEmbed, error) {
 }
 
 // GetAllChampionMasteries Allow to get 3 most champion used
-func GetAllChampionMasteries(summonerID string) ([]champion.Champion, error) {
+func GetAllChampionMasteries(summonerID string) ([]apiclient.ChampionMastery, error) {
 	summonerChamps, err := configAPI.Client.GetAllChampionMasteries(configAPI.Ctx, configAPI.Region, summonerID)
 	if err != nil {
-		return []champion.Champion{}, err
+		return []apiclient.ChampionMastery{}, err
 	}
 
-	var filteredChamps []champion.Champion
+	var filteredChamps []apiclient.ChampionMastery
 	if len(summonerChamps) > championsLimit {
 
 		for _, champ := range summonerChamps[0:championsLimit] {
-			filteredChamps = append(filteredChamps, champ.ChampionID)
+			filteredChamps = append(filteredChamps, champ)
 		}
 	} else {
 
@@ -122,6 +121,7 @@ func GetAllChampionMasteries(summonerID string) ([]champion.Champion, error) {
 
 // GetAllLeaguePositionsForSummoner Allow to get some data in ranked mode
 func GetAllLeaguePositionsForSummoner(SummonerID string) (Scoring, error) {
+
 	var scoring Scoring
 
 	rankedByModes, err := configAPI.Client.GetAllLeaguePositionsForSummoner(configAPI.Ctx, configAPI.Region, SummonerID)
@@ -145,6 +145,7 @@ func GetAllLeaguePositionsForSummoner(SummonerID string) (Scoring, error) {
 		}
 	}
 
+	prettyPrint(rankedByModes, err)
 	return scoring, nil
 }
 
@@ -158,7 +159,7 @@ func findRankedSoloDuo(fromValues []string, lookingFor string) bool {
 	return false
 }
 
-// prettyPrint Made data readable
+// prettyPrint Makes data readable
 func prettyPrint(res interface{}, err error) {
 	if err != nil {
 		fmt.Println("HTTP error:", err)
@@ -172,6 +173,7 @@ func prettyPrint(res interface{}, err error) {
 	fmt.Println(string(js))
 }
 
-func upFirstCaseLetter(string string) string {
+// upFirstCaseLetter
+func upFirstCaseLetter(string string) string{
 	return strings.Title(strings.ToLower(string))
 }

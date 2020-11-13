@@ -40,6 +40,7 @@ func runCommands(Session *discordgo.Session, Messager *discordgo.MessageCreate, 
 			Session.ChannelMessageSend(Messager.ChannelID, "Merci de spécifier le nom du joueur pour League of Legends")
 			return
 		}
+
 		discordEmbed, err := leagueoflegends.GetLOLProfileData(params[1])
 
 		returnedMessage := embed.NewEmbed()
@@ -47,7 +48,6 @@ func runCommands(Session *discordgo.Session, Messager *discordgo.MessageCreate, 
 
 			if err.Error() == "forbidden" {
 
-				fmt.Println(err)
 				returnedMessage.SetTitle("Access Forbidden")
 				returnedMessage.SetDescription("Please have a look to API Key before retrying.")
 				returnedMessage.SetColor(errorDiscordColor)
@@ -58,6 +58,7 @@ func runCommands(Session *discordgo.Session, Messager *discordgo.MessageCreate, 
 				returnedMessage.SetColor(errorDiscordColor)
 			}
 		} else {
+
 			returnedMessage.SetThumbnail(fmt.Sprintf("http://ddragon.leagueoflegends.com/cdn/10.22.1/img/profileicon/%d.png", discordEmbed.ProfileIconID))
 			returnedMessage.SetTitle(fmt.Sprintf("%s - Level %d", discordEmbed.Title.SummonerName, discordEmbed.Title.SummonerLevel))
 			returnedMessage.SetDescription(discordEmbed.Description)

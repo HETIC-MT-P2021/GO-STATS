@@ -2,8 +2,7 @@ package leagueoflegends
 
 import (
 	"fmt"
-
-	"github.com/yuhanfang/riot/constants/champion"
+	"github.com/yuhanfang/riot/apiclient"
 )
 
 // Scoring Stores data about score games
@@ -15,22 +14,21 @@ type Scoring struct {
 // ProfileLOL Stores data of a profile player
 type ProfileLOL struct {
 	Scoring
-	Champions []champion.Champion
+	Champions []apiclient.ChampionMastery
 }
 
-// ProfileBuilder Display on Discord profile data
 func (profile ProfileLOL) ProfileBuilder() string {
-	template := fmt.Sprintf("**%s**\n%s\n\n", profile.Rank, profile.Winrate)
-	template += "- **Champions : **"
 
-	championsLength := len(profile.Champions) - 1
-	for index, championItem := range profile.Champions {
-		if index == championsLength {
-			template += fmt.Sprintf("%s", championItem)
-		} else {
-			template += fmt.Sprintf("%s, ", championItem)
-		}
+	template := ""
+	if len(profile.Rank) == 0 {
+		template += "This player is not rank in Solo/Duo\n"
+	} else {
+		template += fmt.Sprintf("**%s**\n%s\n", profile.Rank, profile.Winrate)
 	}
+	template += "\n- **Champions : **"
+	template += fmt.Sprintf("\n\n > :one: %s - %d pts", profile.Champions[0].ChampionID, profile.Champions[0].ChampionPoints)
+	template += fmt.Sprintf("\n > :two: %s - %d pts", profile.Champions[1].ChampionID, profile.Champions[1].ChampionPoints)
+	template += fmt.Sprintf("\n > :three: %s - %d pts", profile.Champions[2].ChampionID, profile.Champions[2].ChampionPoints)
 
 	return template
 }
