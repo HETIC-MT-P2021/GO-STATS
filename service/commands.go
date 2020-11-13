@@ -6,6 +6,7 @@ import (
 
 	embed "github.com/Clinet/discordgo-embed"
 	"github.com/bwmarrin/discordgo"
+	lol "github.com/wyllisMonteiro/GO-STATS/service/leagueoflegends"
 )
 
 const helpMessage = "" +
@@ -28,7 +29,7 @@ func runCommands(Session *discordgo.Session, Messager *discordgo.MessageCreate, 
 	case "me":
 		Session.ChannelMessageSend(Messager.ChannelID, Messager.Author.Username)
 	case "lol":
-		profileIconID, data, summonerName, err := GetLOLProfileData(params[1])
+		profileIconID, data, summonerName, err := lol.GetLOLProfileData(params[1])
 
 		returnedMessage := embed.NewEmbed()
 		if err != nil {
@@ -37,13 +38,13 @@ func runCommands(Session *discordgo.Session, Messager *discordgo.MessageCreate, 
 			returnedMessage.SetDescription(fmt.Sprintf("No summoner found for username : '%s'", params[1]))
 			returnedMessage.SetColor(0xA62019)
 		} else {
-
 			returnedMessage.SetThumbnail(fmt.Sprintf("http://ddragon.leagueoflegends.com/cdn/10.22.1/img/profileicon/%d.png", profileIconID))
 			returnedMessage.SetTitle(summonerName)
 			returnedMessage.SetDescription(data)
 			returnedMessage.SetColor(0x4E6F7B)
 		}
 		Session.ChannelMessageSendEmbed(Messager.ChannelID, returnedMessage.MessageEmbed)
+		//Session.ChannelMessageSend(Messager.ChannelID, "Error, please retry...")
 
 	case "clear":
 		Session.ChannelMessageSend(Messager.ChannelID, "Error, please retry...")

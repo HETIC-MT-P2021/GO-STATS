@@ -1,14 +1,14 @@
-package service
+package leagueoflegends
 
 import (
 	"context"
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 
-	"net/http"
-
+	"github.com/wyllisMonteiro/GO-STATS/service/config"
 	"github.com/yuhanfang/riot/apiclient"
 	"github.com/yuhanfang/riot/constants/champion"
 	"github.com/yuhanfang/riot/constants/region"
@@ -21,21 +21,11 @@ const (
 
 var QueuesType []string = []string{"RANKED_SOLO_5x5"}
 
-type ConfigLolAPI struct {
-	RiotGamesToken string
-	Ctx            context.Context
-	Limiter        ratelimit.Limiter
-	Client         apiclient.Client
-	Region         region.Region
-}
-
-var configAPI ConfigLolAPI
-
-func NewConfigLolAPI(riotGamesToken string, reg string) ConfigLolAPI {
+func NewConfigLOLAPI(riotGamesToken string) config.ConfigLeagueOfLegendsAPI {
 	httpClient := http.DefaultClient
 	limiter := ratelimit.NewLimiter()
 
-	return ConfigLolAPI{
+	return config.ConfigLeagueOfLegendsAPI{
 		RiotGamesToken: riotGamesToken,
 		Ctx:            context.Background(),
 		Limiter:        limiter,
@@ -44,8 +34,10 @@ func NewConfigLolAPI(riotGamesToken string, reg string) ConfigLolAPI {
 	}
 }
 
+var configAPI config.ConfigLeagueOfLegendsAPI
+
 func GetLOLProfileData(username string) (int, string, string, error) {
-	configAPI = NewConfigLolAPI(os.Getenv("RIOTGAMES"), region.EUW1)
+	configAPI = NewConfigLOLAPI(os.Getenv("RIOTGAMES"))
 
 	summonerInfos, err := configAPI.Client.GetBySummonerName(configAPI.Ctx, configAPI.Region, username)
 	if err != nil {

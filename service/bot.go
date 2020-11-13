@@ -2,9 +2,10 @@ package service
 
 import (
 	"fmt"
-	"github.com/bwmarrin/discordgo"
 	"log"
 	"strings"
+
+	"github.com/bwmarrin/discordgo"
 )
 
 // BotConfig : config to create new bot
@@ -13,6 +14,7 @@ type BotConfig struct {
 }
 
 var botID string
+
 const CommandPrefix = "-gs "
 
 // DG : Create new session of discord
