@@ -2,6 +2,7 @@ package leagueoflegends
 
 import (
 	"fmt"
+
 	"github.com/yuhanfang/riot/apiclient"
 )
 
@@ -17,18 +18,24 @@ type ProfileLOL struct {
 	Champions []apiclient.ChampionMastery
 }
 
+// ProfileBuilder Displays on discord player profile
 func (profile ProfileLOL) ProfileBuilder() string {
 
 	template := ""
-	if len(profile.Rank) == 0 {
-		template += "This player is not rank in Solo/Duo\n"
+	if profile.Rank == "" {
+		template += "Not ranked in Solo/Duo\n\n"
 	} else {
-		template += fmt.Sprintf("**%s**\n%s\n", profile.Rank, profile.Winrate)
+		template += fmt.Sprintf("**%s**\n%s\n\n", profile.Rank, profile.Winrate)
 	}
-	template += "\n- **Champions : **"
-	template += fmt.Sprintf("\n\n > :one: %s - %d pts", profile.Champions[0].ChampionID, profile.Champions[0].ChampionPoints)
-	template += fmt.Sprintf("\n > :two: %s - %d pts", profile.Champions[1].ChampionID, profile.Champions[1].ChampionPoints)
-	template += fmt.Sprintf("\n > :three: %s - %d pts", profile.Champions[2].ChampionID, profile.Champions[2].ChampionPoints)
+
+	if len(profile.Champions) == ChampionsLimit {
+		template += "- **Champions : **\n\n"
+		template += fmt.Sprintf(" > :one: %s - %d pts\n", profile.Champions[0].ChampionID, profile.Champions[0].ChampionPoints)
+		template += fmt.Sprintf(" > :two: %s - %d pts\n", profile.Champions[1].ChampionID, profile.Champions[1].ChampionPoints)
+		template += fmt.Sprintf(" > :three: %s - %d pts", profile.Champions[2].ChampionID, profile.Champions[2].ChampionPoints)
+	} else {
+		template += "- **Champions : **Not enough champions to display"
+	}
 
 	return template
 }

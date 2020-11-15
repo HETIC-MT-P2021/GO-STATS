@@ -16,7 +16,8 @@ import (
 )
 
 const (
-	championsLimit int = 3
+	// ChampionsLimit : Limit of displayed champions
+	ChampionsLimit int = 3
 )
 
 // DiscordEmbed Set up NewEmbed .SetThumbnail() || .SetTile() || .Description()
@@ -106,9 +107,8 @@ func GetAllChampionMasteries(summonerID string) ([]apiclient.ChampionMastery, er
 	}
 
 	var filteredChamps []apiclient.ChampionMastery
-	if len(summonerChamps) > championsLimit {
-
-		for _, champ := range summonerChamps[0:championsLimit] {
+	if len(summonerChamps) > ChampionsLimit {
+		for _, champ := range summonerChamps[0:ChampionsLimit] {
 			filteredChamps = append(filteredChamps, champ)
 		}
 	} else {
@@ -174,6 +174,6 @@ func prettyPrint(res interface{}, err error) {
 }
 
 // upFirstCaseLetter
-func upFirstCaseLetter(string string) string{
+func upFirstCaseLetter(string string) string {
 	return strings.Title(strings.ToLower(string))
 }
