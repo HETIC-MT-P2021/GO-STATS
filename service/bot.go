@@ -26,12 +26,14 @@ func ConnectBot() {
 	botConfig, err := GetVarsBot()
 	if err != nil {
 		log.Println(err)
+		fmt.Println(-2)
 		return
 	}
 
 	discordSession, err = discordgo.New("Bot " + botConfig.Token)
 	if err != nil {
 		log.Println(err)
+		fmt.Println(-1)
 		return
 	}
 }
@@ -43,6 +45,7 @@ func RunBot() {
 	user, err := discordSession.User("@me")
 	if err != nil {
 		log.Println(err)
+		fmt.Println(0)
 		return
 	}
 
@@ -53,6 +56,7 @@ func RunBot() {
 	err = discordSession.Open()
 	if err != nil {
 		log.Println(err)
+		fmt.Println(1)
 		return
 	}
 

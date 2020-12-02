@@ -2,11 +2,14 @@ package service
 
 import (
 	"fmt"
+	"os"
 	"strings"
+
+	"github.com/wyllisMonteiro/GO-STATS/service/leagueoflegends"
 
 	embed "github.com/Clinet/discordgo-embed"
 	"github.com/bwmarrin/discordgo"
-	"github.com/wyllisMonteiro/GO-STATS/service/leagueoflegends"
+	"github.com/wyllisMonteiro/GO-STATS/service/leagueoflegends/impl"
 )
 
 const (
@@ -36,34 +39,35 @@ func runCommands(Session *discordgo.Session, Messager *discordgo.MessageCreate, 
 	case "lol":
 		fmt.Println(params)
 		if len(params) == 1 {
-
 			Session.ChannelMessageSend(Messager.ChannelID, "Merci de spécifier le nom du joueur pour League of Legends")
 			return
 		}
 
-		discordEmbed, err := leagueoflegends.GetLOLProfileData(params[1])
+		config := leagueoflegends.MakeConfig(os.Getenv("RIOTGAMES"))
+		api := &impl.Impl{
+			Config: config,
+		}
+
+		discordEmbed, err := api.GetLOLProfileData(params[1])
 
 		returnedMessage := embed.NewEmbed()
 		if err != nil {
-
 			if err.Error() == "forbidden" {
-
 				returnedMessage.SetTitle("Access Forbidden")
 				returnedMessage.SetDescription("Please have a look to API Key before retrying.")
 				returnedMessage.SetColor(errorDiscordColor)
 			} else {
-
 				returnedMessage.SetTitle("Summoner not found")
 				returnedMessage.SetDescription(fmt.Sprintf("No summoner found for username : '%s'", params[1]))
 				returnedMessage.SetColor(errorDiscordColor)
 			}
 		} else {
-
 			returnedMessage.SetThumbnail(fmt.Sprintf("http://ddragon.leagueoflegends.com/cdn/10.22.1/img/profileicon/%d.png", discordEmbed.ProfileIconID))
 			returnedMessage.SetTitle(fmt.Sprintf("%s - Level %d", discordEmbed.Title.SummonerName, discordEmbed.Title.SummonerLevel))
 			returnedMessage.SetDescription(discordEmbed.Description)
 			returnedMessage.SetColor(defaultDiscordColor)
 		}
+
 		Session.ChannelMessageSendEmbed(Messager.ChannelID, returnedMessage.MessageEmbed)
 		//Session.ChannelMessageSend(Messager.ChannelID, "Error, please retry...")
 

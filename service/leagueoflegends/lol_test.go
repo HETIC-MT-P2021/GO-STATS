@@ -4,17 +4,41 @@ import (
 	"testing"
 
 	"github.com/golang/mock/gomock"
+	"github.com/wyllisMonteiro/GO-STATS/service/leagueoflegends/structs"
 	"github.com/wyllisMonteiro/GO-STATS/service/mocks"
+	"github.com/wyllisMonteiro/GO-STATS/service/templates"
+	"github.com/yuhanfang/riot/apiclient"
 )
 
-func TestLeagueOfLegends(t *testing.T) {
+func TestGetLOLProfileData(t *testing.T) {
 	controller := gomock.NewController(t)
 	defer controller.Finish()
 
 	mock := mocks.NewMockLeagueOfLegends(controller)
 
-	wantedConfig := NewConfigLOLAPI("token")
+	username := "magma"
+	mock.EXPECT().GetLOLProfileData(username).Return(structs.DiscordEmbed{}, nil)
+	mock.GetLOLProfileData(username)
+}
 
-	mock.EXPECT().MakeConfig("token").Return(wantedConfig)
-	mock.MakeConfig("token")
+func TestGetAllChampionMasteries(t *testing.T) {
+	controller := gomock.NewController(t)
+	defer controller.Finish()
+
+	mock := mocks.NewMockLeagueOfLegends(controller)
+
+	summonerID := "1"
+	mock.EXPECT().GetAllChampionMasteries(summonerID).Return([]apiclient.ChampionMastery{}, nil)
+	mock.GetAllChampionMasteries(summonerID)
+}
+
+func TestGetAllLeaguePositionsForSummoner(t *testing.T) {
+	controller := gomock.NewController(t)
+	defer controller.Finish()
+
+	mock := mocks.NewMockLeagueOfLegends(controller)
+
+	summonerID := "1"
+	mock.EXPECT().GetAllLeaguePositionsForSummoner(summonerID).Return(templates.Scoring{}, nil)
+	mock.GetAllLeaguePositionsForSummoner(summonerID)
 }
