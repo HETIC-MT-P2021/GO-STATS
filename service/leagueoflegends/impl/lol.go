@@ -6,7 +6,6 @@ import (
 	"log"
 	"strings"
 
-	"github.com/wyllisMonteiro/GO-STATS/service/config"
 	"github.com/wyllisMonteiro/GO-STATS/service/leagueoflegends/constants"
 	"github.com/wyllisMonteiro/GO-STATS/service/leagueoflegends/structs"
 	"github.com/wyllisMonteiro/GO-STATS/service/templates"
@@ -17,7 +16,7 @@ var queuesType []string = []string{"RANKED_SOLO_5x5"}
 
 // Impl Implementation of LeagueOfLegends interface
 type Impl struct {
-	Config config.LeagueOfLegendsAPI
+	Config structs.LeagueOfLegendsAPI
 }
 
 // GetLOLProfileData Allow to get some data about league of legends player profile from username

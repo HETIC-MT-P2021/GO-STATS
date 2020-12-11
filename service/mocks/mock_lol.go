@@ -66,16 +66,16 @@ func (mr *MockLeagueOfLegendsMockRecorder) GetAllChampionMasteries(summonerID in
 }
 
 // GetAllLeaguePositionsForSummoner mocks base method
-func (m *MockLeagueOfLegends) GetAllLeaguePositionsForSummoner(SummonerID string) (templates.Scoring, error) {
+func (m *MockLeagueOfLegends) GetAllLeaguePositionsForSummoner(summonerID string) (templates.Scoring, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetAllLeaguePositionsForSummoner", SummonerID)
+	ret := m.ctrl.Call(m, "GetAllLeaguePositionsForSummoner", summonerID)
 	ret0, _ := ret[0].(templates.Scoring)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetAllLeaguePositionsForSummoner indicates an expected call of GetAllLeaguePositionsForSummoner
-func (mr *MockLeagueOfLegendsMockRecorder) GetAllLeaguePositionsForSummoner(SummonerID interface{}) *gomock.Call {
+func (mr *MockLeagueOfLegendsMockRecorder) GetAllLeaguePositionsForSummoner(summonerID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllLeaguePositionsForSummoner", reflect.TypeOf((*MockLeagueOfLegends)(nil).GetAllLeaguePositionsForSummoner), SummonerID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllLeaguePositionsForSummoner", reflect.TypeOf((*MockLeagueOfLegends)(nil).GetAllLeaguePositionsForSummoner), summonerID)
 }
