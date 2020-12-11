@@ -3,9 +3,12 @@ package service
 import (
 	"fmt"
 	"log"
+	"os"
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/wyllisMonteiro/GO-STATS/service/command"
+	"github.com/wyllisMonteiro/GO-STATS/service/discord"
 )
 
 // BotConfig Stores necessary data to create new bot
@@ -15,9 +18,6 @@ type BotConfig struct {
 
 var botID string
 
-// commandPrefix is prefix used to call our bot in discord
-const commandPrefix = "-gs "
-
 // discordSession Create new session of discord
 var discordSession *discordgo.Session
 
@@ -26,12 +26,14 @@ func ConnectBot() {
 	botConfig, err := GetVarsBot()
 	if err != nil {
 		log.Println(err)
+		fmt.Println(-2)
 		return
 	}
 
 	discordSession, err = discordgo.New("Bot " + botConfig.Token)
 	if err != nil {
 		log.Println(err)
+		fmt.Println(-1)
 		return
 	}
 }
@@ -43,6 +45,7 @@ func RunBot() {
 	user, err := discordSession.User("@me")
 	if err != nil {
 		log.Println(err)
+		fmt.Println(0)
 		return
 	}
 
@@ -53,6 +56,7 @@ func RunBot() {
 	err = discordSession.Open()
 	if err != nil {
 		log.Println(err)
+		fmt.Println(1)
 		return
 	}
 
@@ -63,11 +67,15 @@ func RunBot() {
 }
 
 // MessageHandler Waiting for sending message by user
-func MessageHandler(Session *discordgo.Session, Messager *discordgo.MessageCreate) {
-	if Messager.Author.ID == botID {
+func MessageHandler(session *discordgo.Session, messager *discordgo.MessageCreate) {
+	if messager.Author.ID == botID {
 		return
 	}
-	var args = strings.Split(Messager.Content, commandPrefix)
+	var args = strings.Split(messager.Content, os.Getenv("COMMANDPREFIX"))
 
-	runCommands(Session, Messager, args)
+	discord := discord.DiscordBotImpl{
+		Session: session,
+	}
+
+	command.RunCommand(discord, messager, args)
 }

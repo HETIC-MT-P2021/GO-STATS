@@ -1,4 +1,4 @@
-package leagueoflegends
+package templates
 
 import (
 	"testing"
